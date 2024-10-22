@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抽奖</title>
+  <style>
+    /* 表格居中 */
+    table {
+        margin:0 auto;
+    }
+    td {
+      width: 100px;
+      height: 120px;
+      border: 1px solid #000;
+      cursor: pointer;
+      background-color: azure;
+      text-align: center;
+    }
+    .hit, .miss {
+      background-color: rgb(118, 153, 54);
+    }
+    .hit::before {
+      content: "😃";
+      font-size: 24px;
+    }
+    .miss::before {
+      content: "MISS";
+    }
+  </style>
+  <script>
+    // 在页面加载完成后事件监听器来处理点击事件
+    window.onload = function() {
+        // 随机生成
+      const prize = Math.floor(Math.random()*8) + 1;
+      document.querySelectorAll('td')
+        .forEach(ele => ele.addEventListener('click', handler, false));
+
+      let times = 1;
+      function handler(event) {
+        const tag = event.target;
+        let p = document.createElement("p");
+        if (tag.id === `g${prize}`) {
+          tag.className = 'hit';
+          const tip = document.createTextNode(`第${times}次点击：恭喜中奖😃`);
+          p.appendChild(tip);
+          document.body.appendChild(p);
+          document.querySelectorAll('td').forEach(t => t.removeEventListener('click', handler, false));
+        } else {
+          tag.className = 'miss';
+          const tip = document.createTextNode(`第${times}次点击：未中奖☹️`);
+          p.appendChild(tip);
+          document.body.appendChild(p);
+          tag.removeEventListener('click', handler, false);
+        }
+        times++;
+      }
+
+    }
+  </script>
+</head>
+<body>
+  <table>
+    <!-- 表格的一行 -->
+    <tr>
+    <!-- 一行多个小格子 -->
+      <td id="g1"></td>
+      <td id="g2"></td>
+      <td id="g3"></td>
+    </tr>
+    <tr>
+      <td id="g4"></td>
+      <td id="g5"></td>
+      <td id="g6"></td>
+    </tr>
+    <tr>
+      <td id="g7"></td>
+      <td id="g8"></td>
+      <td id="g9"></td>
+    </tr>
+  </table>  
+</body>
+
+</html>
